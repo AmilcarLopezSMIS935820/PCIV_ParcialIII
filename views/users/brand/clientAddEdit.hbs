@@ -1,0 +1,26 @@
+<div class="content">
+    <br>
+    <h2 style="text-align: center; margin-bottom:25px;">{{viewTitle}}</h2>
+    <div class="row">
+        <div class="col-md-4"></div>        
+        <div class="col-md-4">
+            <form action="/client" method="POST">
+            <div class="mb-3">
+            <input type="hidden" class="form-control" name="._id" value="{{client._id}}">
+            </div>
+
+            <div class="mb-3">
+            Campo1
+            <input type="text" class="form-control" name="campo1" value="{{client.campo1}}">
+            </div>
+
+            <div class="mb-3">
+            Campo2
+            <input type="text" class="form-control" name="campo2" value="{{client.campo2}}">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: 50px;">Guardar</button>
+        </form>
+        </div>
+    </div>
+</div>

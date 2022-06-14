@@ -1,0 +1,28 @@
+<h2>{{viewTitle}}</h2>
+
+<div class="content">
+    <br>
+    <div class="row">
+        <div class="col-md-4"></div>        
+        <div class="col-md-4">
+            <form action="/brand" method="POST">
+            <div class="mb-3">
+            Id
+            <input type="text" class="form-control" name="_id" value="{{brand._id}}">
+            </div>
+
+            <div class="mb-3">
+            Nombre
+            <input type="text" class="form-control" name="name" value="{{brand.name}}">
+            </div>
+
+            <div class="mb-3">
+            Descripcion
+            <input type="text" class="form-control" name="description" value="{{brand.description}}">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; border-radius: 50px;">Guardar</button>
+        </form>
+        </div>
+    </div>
+</div>
