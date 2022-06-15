@@ -1,0 +1,113 @@
+<body style="background-color: rgb(196, 187, 248);">
+    <div class="containerbet py-5 bg-white">
+        <h1 class="text-center">{ MyHouse }</h1>    
+        <div class="container" style="padding: 25px;">
+            <form action="/register" method="POST">
+                Nombre completo
+                <input type="text" class="form-control text-center" name="fullName" style="margin-bottom: 10px; margin-top:10px;"
+                pattern="[a-zA-Z áéíóúÁÉÍÓÚ]{2,85}" onchange="toggleButton()" title="No se puede utilizar numeros o caracteres como #/*-+"
+                id="fullName">
+                
+                Correo Electronico
+                <input type="text" class="form-control text-center" name="email" style="margin-bottom: 10px; margin-top:10px;"
+                id="email" onchange="toggleButton()">   
+                
+                <div class="row" style="margin-top: 24px; margin-bottom:24px;">
+                    <div class="col-md-6">
+                        Contraseña
+                        <input type="password" class="form-control text-center" name="password" id="password"
+                        onchange="toggleButton()">
+                    </div>
+                    <div class="col-md-6">
+                        Confirm. Contraseña
+                        <input type="password" class="form-control text-center" name="confirmPassword" id="confirmPassword" 
+                        onchange="toggleButton()">        
+                    </div>
+                </div>
+                    <button type="submit" id="checkButton" class="btn btn-primary roun w-100" disabled>Registrar</button>
+                    <a href="/" class="reg text-center">Volver</a>  
+            </form>
+            
+        </div>
+          
+        {{#if message}}
+            <script>
+                alert("{{message}}");
+            </script>  
+        {{/if}}    
+    </div>
+    
+</body>
+
+<!-- Estilos -->
+<style>
+    @font-face {
+        font-family: myhouse;
+        src: url('../aAlleyGarden.ttf');
+    }
+
+
+    .containerbet h1 {
+        color: rgb(226, 117, 14);
+        font-size: 46px;
+        font-family: myhouse;
+    }
+    
+    .containerbet {
+        position: absolute;
+        width: 30%;
+        height: auto;
+        left: 50%;
+        top: 50%;
+        /*background: rgb(70, 8, 151);*/
+        transform: translateX(-50%) translateY(-50%);
+        
+    }
+    
+    
+    .containerbet a:hover {
+        color: rgb(117, 133, 129);
+    }
+
+    .containerbet input {
+        background: rgba(225, 244, 252, 0.808);
+    }
+
+    .roun{
+        border-radius: 50px;
+        font-weight: bold;
+    }
+
+    .bg-offer {
+        background: linear-gradient(rgba(17, 57, 117, 0.7), rgba(18, 130, 145, 0.5)), url(../images/sala1.jpg) center center no-repeat;
+        background-size: cover;
+        min-height: 45px;
+    }
+
+    .reg{
+        color: rgb(161, 184, 179);
+        position: absolute;
+        padding-bottom: 25px;
+        bottom: 0;
+        left:0;
+        right:0;
+        font-weight: bold;
+        text-decoration: none;
+    }
+</style>
+
+<script>        
+    function toggleButton()
+        {            
+            var name = document.getElementById('fullName').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+ 
+            if (name && email && password && confirmPassword) {
+                document.getElementById('checkButton').disabled = false;
+            } else {
+                document.getElementById('checkButton').disabled = true;
+            }
+    }
+</script>
