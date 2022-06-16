@@ -1,28 +1,115 @@
 var express = require('express');
 var router = express.Router();
-//const users = require("../usersData");
+const mysql = require('mysql2');
+const myconn = require('express-myconnection');
+
 const methods = require("../methods");
 const User = require('../models/user');
+const { Router } = require('express');
 
 const registerPage = "../views/users/register";
 const loginPage = "../views/users/login";
 
-/* GET home page. */
-/*router.get('/', function(req, res) {
-    res.render('index', { title: 'Express' });
-});
-*/
-router.get('/home', function(req, res) {
-    if (req.user) {
-        res.render('home', { userName: req.user.fullName });
-    } else {
+//*-----------------------------
+const dbOptions = {
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '2341',
+    database: 'myhouse'
+};
+
+/*Middleware's*/
+router.use(myconn(mysql, dbOptions, 'single'));
+
+
+/*Consulta de informacíon*/
+router.get('/home', (req, res) => {
+    //if (req.user) {
+    req.getConnection((err, conn) => {
+        if (err) return res.send(err);
+
+        conn.query('SELECT * FROM products', (err, rows) => {
+            if (err) return res.send(err);
+
+            res.json(rows);
+        });
+    });
+    //res.render('home', { userName: req.user.fullName });
+    /*} else {
         res.render(loginPage, {
             message: "Debe iniciar sesión para continuar",
             messageClass: "alert-danger"
         })
-    }
+    }*/
 });
 
+/*Envio de información*/
+router.post('/home', (req, res) => {
+    //if (req.user) {
+    req.getConnection((err, conn) => {
+        if (err) return res.send(err);
+        conn.query('INSERT INTO products set ?', [req.body], (err, rows) => {
+            if (err) return res.send(err);
+            res.send('-- Registro insertado ---');
+
+        });
+    });
+
+    //res.render('home', { userName: req.user.fullName });
+    /*} else {
+        res.render(loginPage, {
+            message: "Debe iniciar sesión para continuar",
+            messageClass: "alert-danger"
+        })
+    }*/
+});
+
+/* Eliminar información */
+router.delete('/home/:id', (req, res) => {
+    //if (req.user) {
+    req.getConnection((err, conn) => {
+        if (err) return res.send(err);
+        conn.query('DELETE FROM products WHERE id = ?', [req.params.id], (err, rows) => {
+            if (err) return res.send(err);
+            res.send('-- Se ha eliminado un registro ---');
+
+        });
+    });
+
+    //res.render('home', { userName: req.user.fullName });
+    /*} else {
+        res.render(loginPage, {
+            message: "Debe iniciar sesión para continuar",
+            messageClass: "alert-danger"
+        })
+    }*/
+});
+
+
+/* Actualizar información */
+router.put('/home/:id', (req, res) => {
+    //if (req.user) {
+    req.getConnection((err, conn) => {
+        if (err) return res.send(err);
+        conn.query('UPDATE products set ? WHERE id= ?', [req.body, req.params.id], (err, rows) => {
+            if (err) return res.send(err);
+            res.send('-- Se ha actualizado un registro ---');
+
+        });
+    });
+
+    //res.render('home', { userName: req.user.fullName });
+    /*} else {
+        res.render(loginPage, {
+            message: "Debe iniciar sesión para continuar",
+            messageClass: "alert-danger"
+        })
+    }*/
+});
+
+
+/* Rutas bases */
 router.get('/', function(req, res) {
     res.render(loginPage);
 });
@@ -36,23 +123,6 @@ router.post('/register', async(req, res) => {
 
     //Validando
     if (password === confirmPassword) {
-        //Validar si el correo Existe
-        /*if (users.data.find(u => u.email === email)) {
-            res.render(registerPage, {
-                message: "Usuario ya registrado",
-                messageClass: "alert-success"
-            });
-        }
-
-        const phash = methods.getHashedPassword(password);
-
-        //almacenar datos
-        users.data.push({
-            fullName,
-            email,
-            password: phash
-        });*/
-
         user = await User.findOne({ email: email })
             .then(user => {
                 if (user) {
@@ -88,24 +158,6 @@ router.post('/', async(req, res) => {
     const { email, password } = req.body;
     const pHash = methods.getHashedPassword(password);
 
-
-    //Validar datos
-    /*const dataUser = users.data.find(u => {
-        return u.email == email && hashedPassword === u.password;
-    });
-
-    if (dataUser) {
-        const authToken = methods.generateTokens();
-        methods.authTokens[authToken] = dataUser;
-        res.cookie('AuthToken', authToken);
-        res.redirect('/home');
-    } else {
-        res.render(loginPage, {
-            message: "Usuario o contraseña no existen",
-            messageClass: "alert-danger"
-        });
-    }*/
-
     user = await User.findOne({ email: email, password: pHash })
         .then(user => {
             if (user) {
@@ -126,5 +178,7 @@ router.get('/logout', (req, res) => {
     res.clearCookie('AuthToken');
     return res.redirect('/');
 });
+
+//*-----------------------------
 
 module.exports = router;
