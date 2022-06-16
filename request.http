@@ -1,0 +1,38 @@
+//Requerimientos
+###
+GET http://localhost:3000/home HTTP/1.1 
+
+###
+POST http://localhost:3000/home HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "MacBook Pro 31",
+    "slug": "macbook-pro 31",
+    "details": "15 pulgadas, 1TB HDD, 64GB RAM",
+    "price": 3499.99,
+    "shipping_cost": 29.99,
+    "description": "MackBook Pro 2",
+    "category_id": 1,
+    "brand_id": 1,
+    "image_path": "macbook-pro.png"
+}
+
+###
+DELETE http://localhost:3000/home/11 HTTP/1.1
+
+###
+PUT http://localhost:3000/home/3 HTTP/1.1
+Content-Type: application/json
+
+{
+     "name": "iPhone 11 Pro MAX",
+    "slug": "iphone-11-pro",
+    "details": "6.1 pulgadas, 64GB 4GB RAM",
+    "price": 649.99,
+    "shipping_cost": 14.99,
+    "description": "iPhone 11 Pro",
+    "category_id": 2,
+    "brand_id": 1,
+    "image_path": "iphone-11-pro.png"
+}
